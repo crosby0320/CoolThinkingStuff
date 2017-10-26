@@ -1,0 +1,32 @@
+import java.net.*;
+import java.io.*;
+
+public class requests {
+    public static void main(String[] args) throws Exception {
+        String[] stocksToLookoFor ={"AAPL", "GOOG" , "MSFT"};
+        String addressTooLookIn = "http://download.finance.yahoo.com/d/quotes.csv?s=";
+        String format = "&f=sb2b3jk";
+        String namesList = "";
+        for (int i = 0 ; i < stocksToLookoFor.length; i++)
+        {
+            if(i == stocksToLookoFor.length - 1)
+            {
+                namesList += stocksToLookoFor[i];
+            }
+            else {
+                namesList += stocksToLookoFor[i] + "+";
+            }
+        }
+        System.out.println(addressTooLookIn + namesList + format);
+        URL yahoo = new URL(addressTooLookIn + namesList + format);
+        URLConnection yc = yahoo.openConnection();
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        yc.getInputStream()));
+        String inputLine;
+
+        while ((inputLine = in.readLine()) != null)
+            System.out.println(inputLine);
+        in.close();
+    }
+}
